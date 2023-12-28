@@ -47,6 +47,13 @@
                            <a href="{% url 'products:basket_remove' basket.id %}">
                                 <i class="fas fa-trash"></i>
                             </a>
+                            <a href="{% url "products:cart_remove" %}"
+                               class="remove-from-cart"
+                               data-cart-id="{{ basket.id }}">
+                            {% csrf_token %}
+                            <img class="mx-1" src="{% static "deps/icons/trash3-fill.svg" %}"
+                                alt="Catalog Icon" width="16" height="16">
+                            </a>
                         </div>
                     </div>
                 </li>

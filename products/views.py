@@ -69,7 +69,6 @@ def basket_add(request, product_id):
 
 
 def cart_add(request):
-
     """ Функция добавления товара в корзину"""
     product_id = request.POST.get('product_id')
     product = Product.objects.get(id=product_id)
@@ -94,6 +93,7 @@ def cart_add(request):
 
     return JsonResponse(response_data)
 
+
 #  return HttpResponseRedirect(request.path) # не работает
 
 
@@ -107,9 +107,9 @@ def cart_change(request):
     basket.save()
     updated_quantity = basket.quantity
 
-    basket = get_user_baskets(request)
+    user_basket = get_user_baskets(request)
     basket_items_html = render_to_string(
-        "products/baskets.html", {"baskets": basket}, request=request)
+        "products/baskets.html", {"baskets": user_basket}, request=request)
 
     response_data = {
         "message": "Количество изменено",
@@ -119,10 +119,29 @@ def cart_change(request):
 
     return JsonResponse(response_data)
 
+
 def basket_remove(request, basket_id):
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def cart_remove(request):
+    basket_id = request.POST.get("basket_id")
+    basket = Basket.objects.get(id=basket_id)
+    quantity = basket.quantity
+    basket.delete()
+
+    user_basket = get_user_baskets(request)
+    basket_items_html = render_to_string(
+        "products/baskets.html", {"baskets": user_basket}, request=request)
+
+    response_data = {
+        "message": "Количество изменено",
+        "cart_items_html": basket_items_html,
+        "quantity_deleted": quantity,
+    }
+    return JsonResponse(response_data)
 
 # def index(request):  # заменили классом IndexView. отображение главной страницы.
 #     context = {'title': 'Store'}

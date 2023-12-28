@@ -2,7 +2,7 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 
 from products import views
-from products.views import ProductsListView, cart_change, cart_add  # products, basket_remove
+from products.views import ProductsListView, cart_change, cart_add, cart_remove  # products, basket_remove
 from products.views import basket_add, basket_remove
 
 app_name = 'products'
@@ -23,4 +23,5 @@ urlpatterns = [
     path('cart_add/', cart_add, name='cart_add'),
     path('baskets/remove/<int:basket_id>/', basket_remove, name='basket_remove'), # ../products/baskets/add/<product_id>
     path('cart_change/', cart_change, name='cart_change'),
+    path('cart_remove/', cart_remove, name='cart_remove'),
 ]
