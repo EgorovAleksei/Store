@@ -1,11 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import HttpResponseRedirect, render
+from django.template.loader import render_to_string
 from django.views.generic import CreateView, ListView, TemplateView
 
 from common.views import TitleMixin
 from products.models import Basket, Product, ProductCategory
+from products.utils import get_user_baskets
 from users.models import User
 
 
@@ -65,8 +68,56 @@ def basket_add(request, product_id):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])  # работает направляет на туже страницу где был
 
 
+def cart_add(request):
+
+    """ Функция добавления товара в корзину"""
+    product_id = request.POST.get('product_id')
+    product = Product.objects.get(id=product_id)
+    baskets = Basket.objects.filter(user=request.user, product=product)
+    if request.user.is_authenticated:
+        baskets = Basket.objects.filter(user=request.user, product=product)
+        if baskets.exists():
+            basket = baskets.first()
+            basket.quantity += 1
+            basket.save()
+        else:
+            Basket.objects.create(user=request.user, product=product, quantity=1)
+
+    basket = get_user_baskets(request)
+    basket_items_html = render_to_string(
+        "products/baskets.html", {"baskets": basket}, request=request)
+
+    response_data = {
+        "message": "Товар добавлен в корзину",
+        "cart_items_html": basket_items_html,
+    }
+
+    return JsonResponse(response_data)
+
 #  return HttpResponseRedirect(request.path) # не работает
 
+
+def cart_change(request):
+    basket_id = request.POST.get("basket_id")
+    quantity = request.POST.get("quantity")
+
+    basket = Basket.objects.get(id=basket_id)
+
+    basket.quantity = quantity
+    basket.save()
+    updated_quantity = basket.quantity
+
+    basket = get_user_baskets(request)
+    basket_items_html = render_to_string(
+        "products/baskets.html", {"baskets": basket}, request=request)
+
+    response_data = {
+        "message": "Количество изменено",
+        "cart_items_html": basket_items_html,
+        "quantity": updated_quantity,
+    }
+
+    return JsonResponse(response_data)
 
 def basket_remove(request, basket_id):
     basket = Basket.objects.get(id=basket_id)

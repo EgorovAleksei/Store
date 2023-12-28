@@ -55,3 +55,4 @@ Werkzeug==3.0.1
 
 celery~=5.3.6
 stripe~=7.9.0
+django-environ==0.11.2

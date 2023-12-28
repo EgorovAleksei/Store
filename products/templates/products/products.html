@@ -3,6 +3,7 @@
 
 {% block css %}
 	<link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
+     
 {% endblock %}
 
 {% block content %}
@@ -12,7 +13,7 @@
 
     <div class="row">
 
-        <!-- Левое меня. Категории. ProductsListView передает categories-->
+        <!-- Левое меню. Категории. ProductsListView передает categories-->
         <div class="col-lg-3">
             <h1 class="my-4">
                 <a class="my-4" href="{% url 'index' %}">Store</a>
@@ -70,6 +71,11 @@
                                 </div>
                                 <div class="card-footer text-center">
                                     <a class="btn btn-outline-success" href="{% url 'products:basket_add' product.id %}">
+                                        Отправить в корзину
+                                    </a>
+                                    <a class="btn btn-dark add-to-cart" href="{% url 'products:cart_add' %}" 
+                                    data-product-id="{{ product.id }}">   
+                                        {% csrf_token %}
                                         Отправить в корзину
                                     </a>
                                 </div>
