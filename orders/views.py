@@ -27,7 +27,7 @@ class CanceledTemplateView(TitleMixin, TemplateView):
 
 class OrderListView(TitleMixin, ListView):
     template_name = 'orders/orders.html'
-    #context_object_name = 'orders'
+    context_object_name = 'orders'
     title = 'Store - Заказы'
     queryset = Order.objects.all()
 
