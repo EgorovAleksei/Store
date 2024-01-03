@@ -54,7 +54,7 @@ class ProductsListView(TitleMixin, ListView):
 
 @login_required
 def basket_add(request, product_id):
-    """ Функция добавления товара в корзину"""
+    """ Функция добавления товара в корзину через Джанго """
     product = Product.objects.get(id=product_id)
     baskets = Basket.objects.filter(user=request.user, product=product)
 
@@ -69,7 +69,7 @@ def basket_add(request, product_id):
 
 
 def cart_add(request):
-    """ Функция добавления товара в корзину"""
+    """ Функция добавления товара в корзину через Ajax """
     product_id = request.POST.get('product_id')
     product = Product.objects.get(id=product_id)
     baskets = Basket.objects.filter(user=request.user, product=product)
@@ -99,8 +99,8 @@ def cart_add(request):
 
 def cart_change(request):
     basket_id = request.POST.get("basket_id")
+    #basket_id = request.POST.get("cart_id")
     quantity = request.POST.get("quantity")
-
     basket = Basket.objects.get(id=basket_id)
 
     basket.quantity = quantity
@@ -121,12 +121,14 @@ def cart_change(request):
 
 
 def basket_remove(request, basket_id):
+    """ Удаление через Джанго """
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 def cart_remove(request):
+    """ Удаление через Ajax """
     basket_id = request.POST.get("basket_id")
     basket = Basket.objects.get(id=basket_id)
     quantity = basket.quantity
@@ -137,7 +139,7 @@ def cart_remove(request):
         "products/baskets.html", {"baskets": user_basket}, request=request)
 
     response_data = {
-        "message": "Количество изменено",
+        "message": "Товар удален",
         "cart_items_html": basket_items_html,
         "quantity_deleted": quantity,
     }

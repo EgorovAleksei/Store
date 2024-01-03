@@ -35,7 +35,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'products:index' %}">Каталог <i class="fas fa-shopping-bag"></i> </a>
                 </li>
-                {% block modal_cart %} {% include "includes/cart_button.html" %} {% endblock  %}
+                 {% if not request.path == '/users/profile/' %}
+	                {% block modal_cart %} {% include "includes/cart_button.html" %} {% endblock  %}
+                 {% endif %} 
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -73,6 +75,7 @@
         </div>
     </div>
 </nav>
+
 
 <!-- Page Content -->
 {% include "includes/notifications.html" %}

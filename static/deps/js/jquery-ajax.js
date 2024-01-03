@@ -112,7 +112,7 @@ $(document).ready(function () {
         var url = $(this).data("cart-change-url");
         // Берем id корзины из атрибута data-cart-id
         var cartID = $(this).data("cart-id");
-        // Ищем ближайшеий input с количеством 
+        // Ищем ближайшей input с количеством
         var $input = $(this).closest('.input-group').find('.number');
         // Берем значение количества товара
         var currentValue = parseInt($input.val());
@@ -148,7 +148,7 @@ $(document).ready(function () {
             type: "POST",
             url: url,
             data: {
-                cart_id: cartID,
+                basket_id: cartID,
                 quantity: quantity,
                 csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
             },
