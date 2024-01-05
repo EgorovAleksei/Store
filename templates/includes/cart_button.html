@@ -1,7 +1,5 @@
-{% load static %}
-{% load basket_tags %}
-
-{% user_carts request as carts %}
+{% load static basket_tags %}
+{% user_carts request as baskets %}
 {% block css %}
 	<link rel="stylesheet" href="{% static "deps/css/bootstrap/bootstrap.min.css" %}">
 {% endblock %}

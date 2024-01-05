@@ -7,6 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, ListView, TemplateView, UpdateView
+from requests import request
 
 from common.views import TitleMixin
 from products.models import Basket, User
@@ -20,6 +21,25 @@ class UserLoginView(TitleMixin, LoginView):
     form_class = UserLoginForm
     title = 'Store - Авторизация'
 
+    # не работает
+    # def get_context_data(self, **kwargs):
+    #     context = super(UserLoginView, self).get_context_data(**kwargs)
+    #     session_key = self.request.session.session_key
+    #     print('session_key123', session_key)
+    #     print('username', self.request.user)
+    #     if self.request.user.is_authenticated:
+    #         print('username is', self.request.user.username)
+    #         Basket.objects.filter(session_key=session_key).update(user=self.request.user)
+    #     return context
+
+    # Как-то работает. Привязывает анонимную корзину к пользователю.
+    def dispatch(self, request, *args, **kwargs):
+        session_key = self.request.session.session_key
+        dis = super(UserLoginView, self).dispatch(request, *args, **kwargs)
+        if request.user.is_authenticated:
+            Basket.objects.filter(session_key=session_key).update(user=self.request.user)
+        return dis
+
 
 class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     model = get_user_model()
@@ -28,6 +48,13 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('users:login')
     title = 'Store - Регистрация'
     success_message = 'Вы успешно зарегистрированны!'
+
+    def get(self, request, *args, **kwargs):
+        session_key = self.request.session.session_key
+        dis = super(UserRegistrationView, self).get(request, *args, **kwargs)
+        if request.user.is_authenticated:
+            Basket.objects.filter(session_key=session_key).update(user=self.request.user)
+        return dis
 
 
 class UserProfileView(TitleMixin, LoginRequiredMixin, UpdateView):

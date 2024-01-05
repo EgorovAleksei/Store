@@ -20,9 +20,24 @@ class ProductAdmin(admin.ModelAdmin):
     # list_editable = ['price', 'quantity']
 
 
-class BasketAdmin(admin.TabularInline): # класс который засовывается во внутрь админки пользователя
+class BasketTabAdmin(admin.TabularInline): # класс который засовывается во внутрь админки пользователя
     model = Basket
 
     fields = ('product', 'quantity', 'created_timestamp')
     readonly_fields = ['created_timestamp']
-    extra = 0 # дополнительные поля которые выводятся в админке у пользователя в корзине. по умолчанию 0
+    extra = 1 # дополнительные поля которые выводятся в админке у пользователя в корзине. по умолчанию 0
+
+
+@admin.register(Basket)
+class BasketAdmin(admin.ModelAdmin):
+    # list_display = ('user_display', 'session_key', 'product', 'quantity', 'created_timestamp')
+    # list_filter = ["created_timestamp", "user", "product__name", ]
+
+    def user_display(self, obj):
+        if obj.user:
+            return str(obj.user)
+        return "Анонимный пользователь"
+
+    def product_display(self, obj):
+        return str(obj.product.name)
+

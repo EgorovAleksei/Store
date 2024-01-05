@@ -55,7 +55,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 #DOMAIN_NAME = 'http://127.0.0.1:4000'
-DOMAIN = env('DOMAIN_NAME')
+DOMAIN_NAME = env('DOMAIN_NAME')
 
 # Application definition
 
@@ -108,7 +108,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'products.context_processors.baskets',
+                #'products.context_processors.baskets',
             ],
         },
     },

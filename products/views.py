@@ -72,7 +72,7 @@ def cart_add(request):
     """ Функция добавления товара в корзину через Ajax """
     product_id = request.POST.get('product_id')
     product = Product.objects.get(id=product_id)
-    baskets = Basket.objects.filter(user=request.user, product=product)
+
     if request.user.is_authenticated:
         baskets = Basket.objects.filter(user=request.user, product=product)
         if baskets.exists():
@@ -81,6 +81,18 @@ def cart_add(request):
             basket.save()
         else:
             Basket.objects.create(user=request.user, product=product, quantity=1)
+
+    else:
+
+        baskets = Basket.objects.filter(
+            session_key=request.session.session_key, product=product)
+        if baskets.exists():
+            basket = baskets.first()
+            if basket:
+                basket.quantity += 1
+                basket.save()
+        else:
+            Basket.objects.create(session_key=request.session.session_key, product=product, quantity=1)
 
     basket = get_user_baskets(request)
     basket_items_html = render_to_string(

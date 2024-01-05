@@ -8,6 +8,7 @@ from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 
+from products.models import Basket
 # старые импорты. нужны для UserRegistrationForm.save без celery
 from users.models import EmailVerification, User
 from users.tasks import send_email_verification
@@ -26,6 +27,8 @@ class UserLoginForm(AuthenticationForm):  # форма для входа в ЛК
                 'Подтвердите пользователя по почте. ',
                 code='inactive',
             )
+
+
 
     class Meta:
         # model = get_user_model()

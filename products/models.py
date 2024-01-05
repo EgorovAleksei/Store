@@ -70,7 +70,7 @@ class BasketQuerySet(models.QuerySet):
 
 
 class Basket(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, blank=True, null=True)
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=0)
     session_key = models.CharField(max_length=32, null=True, blank=True)
@@ -80,9 +80,13 @@ class Basket(models.Model):
 
     class Meta:
         ordering = ['pk']
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзина'
 
     def __str__(self):
-        return f'Корзина для {self.user.username} | Продукт: {self.product.name} | ID: {self.product.id} '
+        if self.user:
+            return f'Корзина для {self.user.username} | Продукт: {self.product.name} | ID: {self.product.id} '
+        return f'Анонимная корзина | Товар {self.product.name} | Количество {self.quantity}'
 
     def sum(self):
         """ Вычисляем сумму 1 позиции в корзине"""
