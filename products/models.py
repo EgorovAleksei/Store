@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.shortcuts import render
 from django.urls import reverse
 
 import stripe
@@ -32,6 +33,10 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+
+    def get_absolute_url(self):
+        #print(f"{settings.DOMAIN_NAME}/products/category/{self.category.id}/")
+        return f"{settings.DOMAIN_NAME}/products/category/{self.category.id}/"
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.stripe_product_price_id:
