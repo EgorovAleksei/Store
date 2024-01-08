@@ -35,7 +35,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'products:index' %}">Каталог <i class="fas fa-shopping-bag"></i> </a>
                 </li>
-                 {% if not request.path == '/users/profile/' %}
+                 {% if not request.path == '/users/profile/' and  not request.path == '/orders/order-create/'%}
 	                {% block modal_cart %} {% include "includes/cart_button.html" %} {% endblock  %}
                  {% endif %} 
                 {% if user.is_authenticated %}
@@ -76,9 +76,9 @@
     </div>
 </nav>
 
-
-<!-- Page Content -->
 {% include "includes/notifications.html" %}
+<!-- Page Content -->
+
 {% block content %}   {% endblock %}
 
 {% block footer %}     {% endblock %}

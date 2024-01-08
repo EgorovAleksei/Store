@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 import stripe
@@ -36,7 +37,10 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         #print(f"{settings.DOMAIN_NAME}/products/category/{self.category.id}/")
-        return f"{settings.DOMAIN_NAME}/products/category/{self.category.id}/"
+
+        #return f"{settings.DOMAIN_NAME}/products/category/{self.category.id}/"
+        return settings.DOMAIN_NAME + reverse('products:category', kwargs={'category_id': self.category.id})
+
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.stripe_product_price_id:

@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 from products.models import Basket
+from store import settings
 from users.models import User
 
 
@@ -16,7 +17,7 @@ class Order(models.Model):
         (ON_WEY, 'В пути'),
         (DELIVERED, 'Доставлен'),
     )
-    first_name = models.CharField(max_length=64)
+    first_name = models.CharField(max_length=64, verbose_name='Имя')
     last_name = models.CharField(max_length=64)
     email = models.EmailField(max_length=256)
     address = models.CharField(max_length=256)
@@ -42,4 +43,6 @@ class Order(models.Model):
         self.save()
 
     def get_absolute_url(self):
-        return reverse('orders:order', kwargs={'pk': self.id})
+        #f"{settings.DOMAIN_NAME}/products/category/{self.category.id}/"
+        # return reverse('orders:order', kwargs={'pk': self.id}) не работает т.к. SITE_ID
+        return settings.DOMAIN_NAME + reverse('orders:order', kwargs={'pk': self.id})

@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from orders.admin import OrderTabAdmin
 from products.admin import BasketAdmin, BasketTabAdmin
 from users.models import EmailVerification, User
 
@@ -9,7 +10,7 @@ from users.models import EmailVerification, User
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username',)
-    inlines = (BasketTabAdmin,)
+    inlines = (BasketTabAdmin, OrderTabAdmin)
 
 
 @admin.register(EmailVerification)

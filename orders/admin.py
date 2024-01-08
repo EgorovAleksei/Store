@@ -15,4 +15,10 @@ class OrderAdmin(admin.ModelAdmin):
 
     readonly_fields = ['id', 'created']
 
-# Register your models here.
+
+class OrderTabAdmin(admin.TabularInline):  # класс который засовывается во внутрь админки пользователя
+    model = Order
+
+    fields = ('id', ('first_name', 'last_name'), 'created', 'email', 'address', 'basket_history')
+    readonly_fields = ['created']
+    extra = 1
