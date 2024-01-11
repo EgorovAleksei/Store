@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import os
+
 import environ
 from pathlib import Path
 
@@ -39,6 +41,9 @@ env = environ.Env(
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+#настройка для сервера чтоб работал статик без if
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 environ.Env.read_env(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
@@ -52,7 +57,7 @@ SECRET_KEY = env('SECRET_KEY')
 #DEBUG = True
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '81.163.28.166']
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 #DOMAIN_NAME = 'http://127.0.0.1:4000'
 DOMAIN_NAME = env('DOMAIN_NAME')
@@ -142,9 +147,9 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'store_db',
-        'USER': 'store',
-        'PASSWORD': '1234',
+        'NAME': env('DATABASES_NAME'),
+        'USER': env('DATABASES_USER'),
+        'PASSWORD': env('DATABASES_PASSWORD'),
         'HOST': 'localhost',
         'PORT': 5432,
     }
@@ -200,9 +205,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',
+# ]
+
+
+# Настройка для сервера. не рекомендуется.
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
