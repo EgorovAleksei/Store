@@ -47,7 +47,7 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     template_name = 'users/registration.html'
     success_url = reverse_lazy('users:login')
     title = 'Store - Регистрация'
-    success_message = 'Вы успешно зарегистрированны!'
+    success_message = 'Вы успешно зарегистрированны! Перейдите в почту и подтвердите адрес!'
 
     def get(self, request, *args, **kwargs):
         session_key = self.request.session.session_key

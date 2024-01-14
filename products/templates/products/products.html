@@ -56,7 +56,7 @@
 
             <div class="row">
                {% comment %} {% cache 30 object_list page_obj.number %} {% endcomment %}
-                    {% for product in object_list %}
+                    {% for product in object_list %}                       
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
                                 <a href="#">
@@ -73,7 +73,7 @@
                                     <a class="btn btn-outline-success" href="{% url 'products:basket_add' product.id %}">
                                         Отправить в корзину
                                     </a>
-                                    <a class="btn btn-dark add-to-cart" href="{% url 'products:cart_add' %}" 
+                                    <a class="btn btn-outline-primary add-to-cart"  href="{% url 'products:cart_add' %}" 
                                     data-product-id="{{ product.id }}">   
                                         {% csrf_token %}
                                         Отправить в корзину

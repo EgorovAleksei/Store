@@ -9,10 +9,7 @@ from orders.views import stripe_webhook_view
 from products.views import IndexView
 
 
-static_urlpatterns = [
-    re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
-    re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
-]
+
 
 
 urlpatterns = [
@@ -25,7 +22,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('orders/', include('orders.urls', namespace='orders')),
     path('webhook/stripe/', stripe_webhook_view, name='stripe_webhook'),
-    path("", include(static_urlpatterns)),
 
 ]
 

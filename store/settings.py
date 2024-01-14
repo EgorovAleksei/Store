@@ -57,7 +57,7 @@ SECRET_KEY = env('SECRET_KEY')
 #DEBUG = True
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '81.163.28.166']
+ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 #DOMAIN_NAME = 'http://127.0.0.1:4000'
 DOMAIN_NAME = env('DOMAIN_NAME')
