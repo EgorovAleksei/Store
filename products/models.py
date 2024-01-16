@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 import stripe

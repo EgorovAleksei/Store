@@ -28,8 +28,6 @@ class UserLoginForm(AuthenticationForm):  # форма для входа в ЛК
                 code='inactive',
             )
 
-
-
     class Meta:
         # model = get_user_model()
         model = User

@@ -1,12 +1,12 @@
 
-from rest_framework.generics import ListAPIView
 from rest_framework import status
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from products.models import Product, Basket
-from products.serializers import ProductSerializer, BasketSerializer
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
+from products.models import Basket, Product
+from products.serializers import BasketSerializer, ProductSerializer
 
 # Представление позволяющее применять post, get, delete и т.д. запросы
 

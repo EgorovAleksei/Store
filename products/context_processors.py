@@ -1,7 +1,6 @@
 from products.models import Basket
 from products.utils import get_user_baskets
 
-
 # def baskets(request):
 #     print('context', request)
 #     return get_user_baskets(request)

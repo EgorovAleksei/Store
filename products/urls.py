@@ -2,8 +2,9 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 
 from products import views
-from products.views import ProductsListView, cart_change, cart_add, cart_remove  # products, basket_remove
-from products.views import basket_add, basket_remove
+from products.views import (ProductsListView,  # products, basket_remove
+                            basket_add, basket_remove, cart_add, cart_change,
+                            cart_remove)
 
 app_name = 'products'
 

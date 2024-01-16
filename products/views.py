@@ -51,10 +51,12 @@ class ProductsListView(TitleMixin, ListView):
         context['categories'] = ProductCategory.objects.all()
         return context
 
+
 @login_required
 def basket_add(request, product_id):
     Basket.create_or_update(product_id, request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])  # работает направляет на туже страницу где был
+
 
 # старая функция. Добавили логику в products/models/Basket из-за REST
 # @login_required
@@ -115,7 +117,7 @@ def cart_add(request):
 
 def cart_change(request):
     basket_id = request.POST.get("basket_id")
-    #basket_id = request.POST.get("cart_id")
+    # basket_id = request.POST.get("cart_id")
     quantity = request.POST.get("quantity")
     basket = Basket.objects.get(id=basket_id)
 

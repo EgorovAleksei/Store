@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from pathlib import Path
 
 import environ
-from pathlib import Path
 
 env = environ.Env(
     # set casting, default value
@@ -280,8 +280,6 @@ SITE_ID = 1
 
 CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}'
-
-
 
 # Stripe
 
